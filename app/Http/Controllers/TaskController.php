@@ -4,8 +4,21 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 
+
 class TaskController extends Controller
 {
+
+    public function names(){
+        $names = [
+            '1' => 'Houssam',
+            '2' => 'Samir',
+            '3' => 'Fahd',
+        ];
+
+        return $names;
+    }
+
+    
     /**
      * Display a listing of the resource.
      *
@@ -13,7 +26,8 @@ class TaskController extends Controller
      */
     public function index()
     {
-        //
+        $namelist = $this->names();
+        return view('dateinfo.index', compact('namelist'));
     }
 
     /**
@@ -45,7 +59,9 @@ class TaskController extends Controller
      */
     public function show($id)
     {
-        //
+        $namelist = $this->names();
+        $username = $namelist[$id];
+        return view('dateinfo.show', compact('username'));
     }
 
     /**
@@ -79,6 +95,19 @@ class TaskController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $namelist = $this->data_array();
+        
+        // Check if the ID exists in the array
+        if(array_key_exists($id, $namelist)) {
+            // Unset the element with the specified ID
+            unset($namelist[$id]);
+        } else {
+            // Handle the case where the ID does not exist
+            return redirect()->route('todo.index')->with('error', 'Item not found.');
+        }
+
+        // Redirect back to the index page
+        return redirect()->route('todo.index')->with('success', 'Item deleted successfully.');
     }
+
 }

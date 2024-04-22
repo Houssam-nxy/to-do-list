@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,5 +21,19 @@ Route::get('/', function () {
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
+
+Route::resource('todo', TaskController::class)->names([
+    'index' => 'todo.index',
+    'create' => 'todo.create',
+    'store' => 'todo.store',
+    'show' => 'todo.show',
+    'edit' => 'todo.edit',
+    'update' => 'todo.update',
+    'destroy' => 'todo.destroy',
+
+])
+
+;
+
 
 require __DIR__.'/auth.php';
